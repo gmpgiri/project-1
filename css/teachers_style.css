@@ -48,3 +48,8 @@ share-section .fas {
   padding: 5px;
   border-radius: 5px;
 }
+
+#lecture {
+  height: 500px;
+  width: 700px;
+}

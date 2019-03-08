@@ -55,59 +55,59 @@
       </div>
     </nav>
     <!---->
+    <!DOCTYPE html>
+    <html lang="en">
+      <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Speech Recording</title>
+      </head>
+      <body>
+        <script>
+          window.SpeechRecognition =
+            window.webkitSpeechRecognition || window.SpeechRecognition;
+          let finalTranscript = '';
+          let recognition = new window.SpeechRecognition();
+          recognition.interimResults = true;
+          recognition.maxAlternatives = 10;
+          recognition.continuous = true;
+          recognition.onresult = event => {
+            let interimTranscript = '';
+            for (
+              let i = event.resultIndex, len = event.results.length;
+              i < len;
+              i++
+            ) {
+              let transcript = event.results[i][0].transcript;
+              if (event.results[i].isFinal) {
+                finalTranscript += transcript;
+              } else {
+                interimTranscript += transcript;
+              }
+            }
+            document.querySelector('body').innerHTML =
+              finalTranscript +
+              '<i style="color:#ddd;">' +
+              interimTranscript +
+              '</>';
+          };
+          recognition.start();
+        </script>
+      </body>
+    </html>
     <header id="home-section">
       <div class="dark-overlay ">
         <div class="home-inner container">
           <div class="form-group">
             <label for="lecture">Lecture</label>
             <form>
-              <textarea
-                class="form-control"
-                rows="22.8"
-                id="lecture"
-              ></textarea>
+              <input type="text" id="lecture" />
             </form>
           </div>
-          <img onclick="startDictation()" src="//i.imgur.com/cHidSVu.gif" />
 
-          <!----
-              <div class="col-lg-4">
-                <div class="card bg-primary text-center card-form">
-                  <div class="card-body">
-                    <h3>
-                      Check out our idea
-                    </h3>
-                    <p>Please fill out this form to get a call from us</p>
-                    <form>
-                      <div class="form-group">
-                        <input
-                          type="text"
-                          class="form-control form-control-lg"
-                          placeholder="full name"
-                        />
-                      </div>
-                      <div class="form-group">
-                        <input
-                          type="text"
-                          class="form-control form-control-lg"
-                          placeholder="phone number"
-                        />
-                      </div>
-                      <div class="form-group">
-                        <input
-                          type="email"
-                          class="form-control form-control-lg"
-                          placeholder="email"
-                        />
-                      </div>
-                      <input
-                        type="submit"
-                        value="Submit"
-                        class="btn btn-outline-light btn-block"
-                      />
-                    </form>
-                  </div>
-                </div>-->
+          <button onclick="recognition.start()">Start</button>
+          <button onclick="recognition.stop()">Stop</button>
         </div>
       </div>
     </header>
@@ -115,35 +115,13 @@
     <!---->
 
     <script>
-      window.SpeechRecognition =
-        window.webkitSpeechRecognition || window.SpeechRecognition;
-      let finalTranscript = '';
-      let recognition = new window.SpeechRecognition();
-      recognition.interimResults = true;
-      recognition.maxAlternatives = 10;
+      var recognition = new webkitSpeechRecognition();
       recognition.continuous = true;
-      recognition.onresult = event => {
-        let interimTranscript = '';
-        for (
-          let i = event.resultIndex, len = event.results.length;
-          i < len;
-          i++
-        ) {
-          let transcript = event.results[i][0].transcript;
-          if (event.results[i].isFinal) {
-            finalTranscript += transcript;
-          } else {
-            interimTranscript += transcript;
-          }
-        }
-        document.getElementById('lecture').value =
-          document.getElementById('lecture').value +
-          ' ' +
-          finalTranscript +
-          ' ';
-        interimTranscript;
+
+      var output = document.getElementById('lecture');
+      recognition.onresult = function(event) {
+        output.textContent = event.results[0][0].transcript;
       };
-      recognition.start();
     </script>
 
     <script
