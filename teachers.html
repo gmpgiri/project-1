@@ -137,10 +137,11 @@
           }
         }
         document.getElementById('lecture').value =
+          document.getElementById('lecture').value +
+          ' ' +
           finalTranscript +
-          '<i style="color:#ddd;">' +
-          interimTranscript +
-          '</>';
+          ' ';
+        interimTranscript;
       };
       recognition.start();
     </script>
